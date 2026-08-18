@@ -1,66 +1,78 @@
 # CarValue AI
 
-CarValue AI is a used car price prediction project built with Python and machine learning.
+CarValue AI is a machine learning project that estimates the resale price of used cars based on vehicle specifications and historical used-car listing data.
 
-The idea is simple: enter some details about a used car and the model gives an estimated resale price.
+The project covers the complete workflow from data preparation and exploratory analysis to feature engineering, model training, evaluation, and a Streamlit-based prediction interface.
 
-I built the project starting from the dataset, then cleaned and explored the data, prepared the features, trained the model and connected it to a Streamlit application.
+## Project Overview
 
-## What the project does
+The application takes details about a used car and predicts its estimated resale price.
 
-- Predicts the estimated price of a used car
-- Takes car details such as make, model, variant, mileage and year
-- Handles categorical car information
-- Uses variant frequency encoding
-- Uses a Random Forest regression model
-- Provides a simple web interface using Streamlit
+The project includes:
+
+- Used car price prediction
+- Make and model based prediction
+- Mileage and vehicle-age analysis
+- Fuel type and transmission information
+- Body type and color features
+- Variant frequency encoding
+- Random Forest regression
+- Model evaluation using MAE, RMSE and R²
+- Streamlit prediction interface
 
 ## Dataset
 
-The dataset contains 8,095 used car records.
+The dataset contains **8,095 used-car records** with **15 original columns**.
 
-The original dataset has 15 columns:
+The original features are:
 
-- city
-- make
-- model
-- variant
-- mileage
-- make_year
-- price
-- fuel_type
-- no_of_owners
-- color
-- body_type
-- transmission
-- registration_year
-- car_age
-- make_model
+- `city`
+- `make`
+- `model`
+- `variant`
+- `mileage`
+- `make_year`
+- `price`
+- `fuel_type`
+- `no_of_owners`
+- `color`
+- `body_type`
+- `transmission`
+- `registration_year`
+- `car_age`
+- `make_model`
 
-There were no missing values or duplicate rows in the dataset.
+The dataset contained **no missing values and no duplicate rows**.
 
-I removed `make_model` during preprocessing because it was already derived from `make` and `model`.
+The derived `make_model` feature was removed during preprocessing because it was already based on the `make` and `model` columns.
 
-## Model
+## Data Preparation
 
-I used Random Forest Regression for the price prediction.
+The dataset was checked for:
 
-The data was split into:
+- Missing values
+- Duplicate records
+- Invalid mileage values
+- Invalid manufacturing years
+- Invalid registration years
+- Invalid car ages
+- Invalid prices
 
-- Training data: 6,476 rows
-- Test data: 1,619 rows
+The data passed these quality checks without requiring removal of invalid records.
 
-For categorical features, I used one-hot encoding.
+## Feature Engineering
 
-The `variant` column had 1,293 different values, so I used frequency encoding instead of creating hundreds of one-hot columns.
+Categorical and numerical features were prepared before model training.
 
-The frequency values were calculated from the training data only.
+Most categorical features were handled using **one-hot encoding**.
 
-## Results
+The `variant` column contained **1,293 unique variants**. Since one-hot encoding such a high-cardinality feature would create a very large number of columns, frequency encoding was used instead.
 
-The model was tested on the test dataset.
+The variant frequencies were calculated using the training data to avoid information leakage.
+
+## Model Training
+
+The target variable is:
 
 ```text
-MAE  : ₹44,527
-RMSE : ₹88,271
-R²   : 0.9582
+price
